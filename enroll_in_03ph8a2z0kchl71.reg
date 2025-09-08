@@ -1,0 +1,5 @@
+Windows Registry Editor Version 5.00
+
+; Set up the enrollment token for organizational unit: Efinlearning
+[HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Google\Chrome]
+"CloudManagementEnrollmentToken"="42fc5275-b1db-4ddd-92fb-4abf589239ee"
