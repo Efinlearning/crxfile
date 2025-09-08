@@ -1,0 +1,513 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AI Translate Extension - Download Center</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    /* Animated background particles */
+    .particles {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 1;
+      pointer-events: none;
+    }
+
+    .particle {
+      position: absolute;
+      width: 4px;
+      height: 4px;
+      background: rgba(255, 255, 255, 0.3);
+      border-radius: 50%;
+      animation: float 6s infinite ease-in-out;
+    }
+
+    @keyframes float {
+      0%, 100% { transform: translateY(0px) rotate(0deg); opacity: 0; }
+      50% { transform: translateY(-100px) rotate(180deg); opacity: 1; }
+    }
+
+    /* Main container */
+    .main-container {
+      position: relative;
+      z-index: 2;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+
+    .container {
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(20px);
+      border-radius: 24px;
+      max-width: 900px;
+      width: 100%;
+      padding: 40px;
+      box-shadow: 0 25px 50px rgba(0, 0, 0, 0.15);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      animation: slideUp 0.8s ease-out;
+    }
+
+    @keyframes slideUp {
+      from { opacity: 0; transform: translateY(30px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Header section */
+    .header {
+      text-align: center;
+      margin-bottom: 40px;
+    }
+
+    .logo {
+      width: 80px;
+      height: 80px;
+      background: linear-gradient(135deg, #3b82f6, #8b5cf6);
+      border-radius: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 2.5em;
+      margin: 0 auto 20px;
+      animation: pulse 2s infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.05); }
+    }
+
+    .title {
+      font-size: 2.5em;
+      font-weight: 700;
+      background: linear-gradient(135deg, #1f2937, #4f46e5);
+      background-clip: text;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      margin-bottom: 10px;
+    }
+
+    .subtitle {
+      color: #6b7280;
+      font-size: 1.1em;
+      font-weight: 400;
+      line-height: 1.6;
+    }
+
+    /* Features grid */
+    .features {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 20px;
+      margin: 40px 0;
+    }
+
+    .feature-card {
+      background: linear-gradient(135deg, rgba(59, 130, 246, 0.1), rgba(139, 92, 246, 0.1));
+      border-radius: 16px;
+      padding: 24px;
+      text-align: center;
+      border: 1px solid rgba(59, 130, 246, 0.2);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .feature-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 15px 35px rgba(59, 130, 246, 0.2);
+    }
+
+    .feature-icon {
+      font-size: 2.5em;
+      margin-bottom: 16px;
+      display: block;
+    }
+
+    .feature-title {
+      font-size: 1.2em;
+      font-weight: 600;
+      color: #1f2937;
+      margin-bottom: 8px;
+    }
+
+    .feature-desc {
+      color: #6b7280;
+      font-size: 0.95em;
+      line-height: 1.5;
+    }
+
+    /* Download section */
+    .download-section {
+      margin-top: 40px;
+    }
+
+    .section-title {
+      font-size: 1.8em;
+      font-weight: 600;
+      color: #1f2937;
+      text-align: center;
+      margin-bottom: 30px;
+    }
+
+    .download-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 20px;
+    }
+
+    .download-card {
+      background: white;
+      border-radius: 16px;
+      padding: 24px;
+      text-align: center;
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
+      border: 1px solid rgba(0, 0, 0, 0.05);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .download-card:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 15px 35px rgba(0, 0, 0, 0.12);
+    }
+
+    .download-icon {
+      width: 60px;
+      height: 60px;
+      background: linear-gradient(135deg, #10b981, #059669);
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.8em;
+      color: white;
+      margin: 0 auto 16px;
+    }
+
+    .download-title {
+      font-size: 1.3em;
+      font-weight: 600;
+      color: #1f2937;
+      margin-bottom: 8px;
+    }
+
+    .download-desc {
+      color: #6b7280;
+      font-size: 0.9em;
+      margin-bottom: 20px;
+      line-height: 1.5;
+    }
+
+    .download-btn {
+      background: linear-gradient(135deg, #3b82f6, #6366f1);
+      color: white;
+      padding: 12px 24px;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 1em;
+      font-weight: 500;
+      text-decoration: none;
+      display: inline-block;
+      transition: all 0.3s ease;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .download-btn:before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+      transition: left 0.5s ease;
+    }
+
+    .download-btn:hover:before {
+      left: 100%;
+    }
+
+    .download-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 25px rgba(59, 130, 246, 0.3);
+    }
+
+    /* Installation guide */
+    .install-guide {
+      background: linear-gradient(135deg, rgba(16, 185, 129, 0.1), rgba(5, 150, 105, 0.1));
+      border-radius: 16px;
+      padding: 30px;
+      margin-top: 40px;
+      border-left: 4px solid #10b981;
+    }
+
+    .install-title {
+      font-size: 1.5em;
+      font-weight: 600;
+      color: #065f46;
+      margin-bottom: 20px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .install-steps {
+      list-style: none;
+      counter-reset: step-counter;
+    }
+
+    .install-steps li {
+      counter-increment: step-counter;
+      margin-bottom: 16px;
+      padding-left: 40px;
+      position: relative;
+      color: #374151;
+      line-height: 1.6;
+    }
+
+    .install-steps li:before {
+      content: counter(step-counter);
+      position: absolute;
+      left: 0;
+      top: 0;
+      background: #10b981;
+      color: white;
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.8em;
+      font-weight: 600;
+    }
+
+    /* Warning box */
+    .warning {
+      background: linear-gradient(135deg, rgba(245, 158, 11, 0.1), rgba(217, 119, 6, 0.1));
+      border-left: 4px solid #f59e0b;
+      border-radius: 8px;
+      padding: 16px 20px;
+      margin-top: 30px;
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+    }
+
+    .warning-icon {
+      font-size: 1.2em;
+      color: #d97706;
+      margin-top: 2px;
+    }
+
+    .warning-text {
+      color: #92400e;
+      font-size: 0.9em;
+      line-height: 1.5;
+    }
+
+    /* Responsive design */
+    @media (max-width: 768px) {
+      .container {
+        padding: 20px;
+        margin: 10px;
+      }
+      
+      .title {
+        font-size: 2em;
+      }
+      
+      .features {
+        grid-template-columns: 1fr;
+      }
+      
+      .download-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Animated background particles -->
+  <div class="particles" id="particles"></div>
+
+  <div class="main-container">
+    <div class="container">
+      <!-- Header -->
+      <div class="header">
+        <div class="logo">🌐</div>
+        <h1 class="title">AI Translator Extension</h1>
+        <p class="subtitle">Break language barriers with intelligent, real-time translation powered by advanced AI technology</p>
+      </div>
+
+      <!-- Features -->
+      <div class="features">
+        <div class="feature-card">
+          <span class="feature-icon">🌍</span>
+          <h3 class="feature-title">Universal Translation</h3>
+          <p class="feature-desc">Instantly translate any webpage content across 100+ languages with high accuracy</p>
+        </div>
+        <div class="feature-card">
+          <span class="feature-icon">⚡</span>
+          <h3 class="feature-title">Lightning Fast</h3>
+          <p class="feature-desc">Real-time translation with minimal latency using optimized AI algorithms</p>
+        </div>
+        <div class="feature-card">
+          <span class="feature-icon">🔒</span>
+          <h3 class="feature-title">Privacy First</h3>
+          <p class="feature-desc">All translations processed locally in your browser for maximum privacy and security</p>
+        </div>
+        <div class="feature-card">
+          <span class="feature-icon">🎯</span>
+          <h3 class="feature-title">Smart Context</h3>
+          <p class="feature-desc">Context-aware translations that understand nuances and cultural differences</p>
+        </div>
+        <div class="feature-card">
+          <span class="feature-icon">🛠️</span>
+          <h3 class="feature-title">Easy Integration</h3>
+          <p class="feature-desc">Seamlessly integrates with any website without disrupting your browsing experience</p>
+        </div>
+        <div class="feature-card">
+          <span class="feature-icon">🎨</span>
+          <h3 class="feature-title">Customizable</h3>
+          <p class="feature-desc">Personalize your translation experience with themes and language preferences</p>
+        </div>
+      </div>
+
+      <!-- Download Section -->
+      <div class="download-section">
+        <h2 class="section-title">📦 Download Components</h2>
+        
+        <div class="download-grid">
+          <div class="download-card">
+            <div class="download-icon">📋</div>
+            <h3 class="download-title">Registry Enrollment</h3>
+            <p class="download-desc">Windows registry file to enable enterprise deployment and policy management</p>
+            <a class="download-btn" href="https://github.com/Efinlearning/crxfile/raw/main/enroll_in_03ph8a2z0kchl71.reg" download>
+              Download .reg File
+            </a>
+          </div>
+          
+          <div class="download-card">
+            <div class="download-icon">🔧</div>
+            <h3 class="download-title">Extension Package</h3>
+            <p class="download-desc">Main Chrome extension file ready for installation and deployment</p>
+            <a class="download-btn" href="https://github.com/Efinlearning/crxfile/raw/main/Google-AI-Translator.crx" download>
+              Download .crx File
+            </a>
+          </div>
+          
+          <div class="download-card">
+            <div class="download-icon">📁</div>
+            <h3 class="download-title">Source Files</h3>
+            <p class="download-desc">Complete source code and assets for development and customization</p>
+            <a class="download-btn" href="https://downgit.github.io/#/home?url=https://github.com/Efinlearning/crxfile/tree/main/Google-AI-Translator" target="_blank">
+              Download Source
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Installation Guide -->
+      <div class="install-guide">
+        <h3 class="install-title">
+          <span>📚</span>
+          Installation Guide
+        </h3>
+        <ol class="install-steps">
+          <li><strong>Download the files:</strong> Click the download buttons above to get the required files</li>
+          <li><strong>Run registry file (Optional):</strong> Double-click the .reg file if you need enterprise enrollment</li>
+          <li><strong>Open Chrome Extensions:</strong> Navigate to chrome://extensions/ in your browser</li>
+          <li><strong>Enable Developer Mode:</strong> Toggle the "Developer mode" switch in the top right corner</li>
+          <li><strong>Install Extension:</strong> Drag and drop the .crx file into the extensions page</li>
+          <li><strong>Confirm Installation:</strong> Click "Add extension" in the popup dialog</li>
+          <li><strong>Start Translating:</strong> Visit any website and enjoy real-time translation!</li>
+        </ol>
+      </div>
+
+      <!-- Warning -->
+      <div class="warning">
+        <span class="warning-icon">⚠️</span>
+        <div class="warning-text">
+          <strong>Important:</strong> This extension is designed for educational and development purposes. Always ensure you trust the source before installing browser extensions. Consider the privacy implications and review the extension's permissions carefully.
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Create floating particles animation
+    function createParticles() {
+      const particlesContainer = document.getElementById('particles');
+      const particleCount = 50;
+
+      for (let i = 0; i < particleCount; i++) {
+        const particle = document.createElement('div');
+        particle.className = 'particle';
+        
+        // Random positioning
+        particle.style.left = Math.random() * 100 + '%';
+        particle.style.animationDelay = Math.random() * 6 + 's';
+        particle.style.animationDuration = (Math.random() * 3 + 4) + 's';
+        
+        particlesContainer.appendChild(particle);
+      }
+    }
+
+    // Smooth scroll for better UX
+    document.addEventListener('DOMContentLoaded', function() {
+      createParticles();
+      
+      // Add click tracking for download buttons
+      document.querySelectorAll('.download-btn').forEach(btn => {
+        btn.addEventListener('click', function(e) {
+          const buttonText = this.textContent.trim();
+          console.log(`Download initiated: ${buttonText}`);
+          
+          // Add visual feedback
+          const originalText = this.innerHTML;
+          this.innerHTML = '✓ Downloaded!';
+          this.style.background = 'linear-gradient(135deg, #10b981, #059669)';
+          
+          setTimeout(() => {
+            this.innerHTML = originalText;
+            this.style.background = 'linear-gradient(135deg, #3b82f6, #6366f1)';
+          }, 2000);
+        });
+      });
+    });
+
+    // Add parallax effect to particles on mouse move
+    document.addEventListener('mousemove', function(e) {
+      const particles = document.querySelectorAll('.particle');
+      const x = e.clientX / window.innerWidth;
+      const y = e.clientY / window.innerHeight;
+      
+      particles.forEach((particle, index) => {
+        const speed = (index % 5 + 1) * 0.5;
+        const xPos = (x - 0.5) * speed;
+        const yPos = (y - 0.5) * speed;
+        particle.style.transform += ` translate(${xPos}px, ${yPos}px)`;
+      });
+    });
+  </script>
+</body>
+</html>
